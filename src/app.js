@@ -1,54 +1,66 @@
-/**
- * Welcome to Pebble.js!
- *
- * This is where you write your app.
- */
-
 var UI = require('ui');
+var Vibe = require('ui/vibe'); 
+var light = require('ui/light');
+var Accel = require('ui/accel');
 var Vector2 = require('vector2');
+var Settings = require('settings'); 
 
-var main = new UI.Card({
-  title: 'CoolCumber!',
-  icon: 'images/menu_icon.png',
-  subtitle: 'To set your keyphrase:',
-  body: 'Press Up and Speak',
-  subtitleColor: 'blue', // Named colors
-  bodyColor: '#ff4d4d' // Hex colors
+
+// Set for Navigivation // 
+var options = {
+  enableHighAccuracy: true, 
+  timeout: 5000 
+}; 
+
+Pebble.addEventListener('ready', function(){
+    //Splash Activity// 
+    var win = new UI.Window({
+        fullscreen: true,
+    });
+  
+    var textfield = new UI.Text({
+      position: new Vector2(0, 65),
+      size: new Vector2(144, 30),
+      font: 'gothic-24-bold',
+      text: 'Loading...',
+      textAlign: 'center'
+    });
+    win.add(textfield);
+    light.trigger(); 
+    win.show();
+ 
+    setTimeout(function(){
+      win.hide(); 
+    }, 500); 
+}); 
+
+var mainActivity = new UI.Window(); 
+var textfield = new UI.Text({
+  position: new Vector2(0, 65),
+  size: new Vector2(144, 30),
+  font: 'gothic-24-bold',
+  text: 'Press Down to Set Phrase!',
+  textAlign: 'center'
 });
+mainActivity.add(textfield);
+mainActivity.show();
 
-main.show();
-
-main.on('click', 'up', function(e) {
-    // Voice Recogonition // 
-  Voice.dictate('start', false, function(e){
-    if(e.err)
-    {
-      console.log('Error: ' + e.err); 
-      return; 
-    }
-    console.log(e.transcription); 
-  }); 
-});
-
-main.on('click', 'select', function(e) {
-  var wind = new UI.Window({
-    fullscreen: true,
+pebble.addEventListener('click', 'down', function(e) {
+    Voice.dictate('start', false, function(e){
+      if(e.err)
+      {
+        console.warn('Error: ' + e.err); 
+        Pebble.showSimpleNotificationOnPebble('Coolcumber', 'Setting Phrase Failed.'); 
+        return; 
+      }
+      console.log(e.transcription); 
+      Settings.data('user_phrase', e.transcription);  
   });
-  var textfield = new UI.Text({
-    position: new Vector2(0, 65),
-    size: new Vector2(144, 30),
-    font: 'gothic-24-bold',
-    text: 'Text Anywhere!',
-    textAlign: 'center'
-  });
-  wind.add(textfield);
-  wind.show();
+  mainActivity.hide(); 
 });
 
-main.on('click', 'down', function(e) {
-  var card = new UI.Card();
-  card.title('A Card');
-  card.subtitle('Is a Window');
-  card.body('The simplest window type in Pebble.js.');
-  card.show();
-});
+Accel.peek(function(e){
+  if(e.accel.x >= 10 || e.accel.y >= 10) {
+    console.log('send text'); 
+  }
+}); 

@@ -28,6 +28,11 @@
                 "file": "fonts/UbuntuMono-Regular.ttf",
                 "name": "MONO_FONT_14",
                 "type": "font"
+            },
+            {
+                "file": "images/cc",
+                "name": "IMAGES_CC",
+                "type": "png"
             }
         ]
     },
