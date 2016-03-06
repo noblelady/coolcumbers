@@ -4,7 +4,7 @@ var light = require('ui/light');
 var Accel = require('ui/accel');
 var Vector2 = require('vector2');
 var Settings = require('settings'); 
-
+var Voice = require('ui/voice');
 
 // Set for Navigivation // 
 var options = {
