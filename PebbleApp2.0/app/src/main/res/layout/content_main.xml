@@ -12,8 +12,27 @@
     tools:context="com.example.clairenoble.pebbleapp20.MainActivity"
     tools:showIn="@layout/activity_main">
 
+
+    <com.example.clairenoble.pebbleapp20.MyEditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="911"
+        android:layout_centerHorizontal="true"
+        android:enabled="false"
+        android:id="@+id/phoneNumEdit"
+        android:padding="32dp"
+        android:layout_weight="1"
+        android:ems="10"
+        android:inputType="phone"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="@string/instructions"
+        android:layout_below="@+id/phoneNumEdit"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:paddingTop="16dp"
+        />
 </RelativeLayout>
